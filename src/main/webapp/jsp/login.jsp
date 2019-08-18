@@ -15,7 +15,7 @@
 <div class="login-page">
     <div class="form">
         <form method="post" action="/login">
-            <input type="text" name="user" placeholder="username"/>
+            <input type="text" name="name" placeholder="username"/>
             <input type="password" name="password" placeholder="password"/>
             <button>login</button>
             <p class="message">Not registered? <a href="/SignUp">Create an account</a></p>
