@@ -20,7 +20,7 @@
             <button>login</button>
             <p class="message">Not registered? <a href="/SignUp">Create an account</a></p>
         </form>
-        </form>
+
     </div>
 </div>
 

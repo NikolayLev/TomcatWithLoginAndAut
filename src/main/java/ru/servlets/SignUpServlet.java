@@ -19,6 +19,7 @@ import java.util.List;
 @WebServlet("/SignUp")
 public class SignUpServlet extends HttpServlet {
     WorkWithUserBaseImpl dateBase;
+
     @Override
     public void init() throws ServletException {
         try {
@@ -40,16 +41,16 @@ public class SignUpServlet extends HttpServlet {
         String name = req.getParameter("name");
         String password = PasswordHashingImpl.getPasswordHashing.createHashFromPass(req.getParameter("password"));
         //важно! если имя пользователя есть в базе вернет true
-        if (!dateBase.checkUser(name)){
-            System.out.println("Добавили пользователя с ником: "+ name);
-            User user = new HashUser(name,password);
+        if (!dateBase.checkUser(name)) {
+            System.out.println("Добавили пользователя с ником: " + name);
+            User user = new HashUser(name, password);
             dateBase.addNewUser(user);
-            req.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(req,resp);
-        }else{
-            System.out.println("Пользователь уже есть в базе "+ name);
+            req.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
+        } else {
+            System.out.println("Пользователь уже есть в базе " + name);
 
         }
-        doGet(req,resp);
+        doGet(req, resp);
 
     }
 }
