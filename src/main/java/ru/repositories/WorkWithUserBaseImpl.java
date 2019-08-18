@@ -45,7 +45,6 @@ public class WorkWithUserBaseImpl implements WorkWithUserBase {
         user1.getName();
 
         if (!checkUser(user1.getName())) {
-            System.out.println("Добавили нового пользователя");
             try {
                 statement.execute("INSERT INTO project_user(name, password) VALUES ('" + name1 + "','" + password1 + "')");
 
@@ -59,11 +58,12 @@ public class WorkWithUserBaseImpl implements WorkWithUserBase {
 
         }
     }
-    public boolean checkUserNameAndPassword(User user){
-       boolean checkUser=false;
-       String name = user.getName();
-       String password = user.getPassword();
-       String hashPassword;
+
+    public boolean checkUserNameAndPassword(User user) {
+        boolean checkUser = false;
+        String name = user.getName();
+        String password = user.getPassword();
+        String hashPassword;
         ResultSet resultSet;
         try {
             resultSet = statement.executeQuery("SELECT name, password FROM project_user WHERE name ='" + name + "'");
@@ -71,34 +71,34 @@ public class WorkWithUserBaseImpl implements WorkWithUserBase {
             if (resultSet.next()) {
                 resultSet.getString("name");
                 hashPassword = resultSet.getString("password");
-            }else{
+            } else {
                 return false;
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-        if (PasswordHashingImpl.getPasswordHashing.checkPassHash(password, hashPassword)){
-            checkUser=true;
-        }else {
+        if (PasswordHashingImpl.getPasswordHashing.checkPassHash(password, hashPassword)) {
+            checkUser = true;
+        } else {
             return false;
         }
 
-       return checkUser;
+        return checkUser;
     }
 
 
-    private WorkWithUserBaseImpl(){
-    dbUser="postgres";
-    dbPassword ="a5a884ec5";
-    connectionUrl="jdbc:postgresql://localhost:5432/UsersForProject";
+    private WorkWithUserBaseImpl() {
+        dbUser = "postgres";
+        dbPassword = "a5a884ec5";
+        connectionUrl = "jdbc:postgresql://localhost:5432/UsersForProject";
         try {
-            connection=DriverManager.getConnection(connectionUrl,dbUser,dbPassword);
-            statement =connection.createStatement();
+            connection = DriverManager.getConnection(connectionUrl, dbUser, dbPassword);
+            statement = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
-}
+    }
 }

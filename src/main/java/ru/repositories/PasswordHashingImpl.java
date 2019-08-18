@@ -12,20 +12,21 @@ public class PasswordHashingImpl implements PasswordHashing {
     static {
         getPasswordHashing = new PasswordHashingImpl();
     }
-    private PasswordHashingImpl(){}
 
-
-
-//проверяем пароли
-    @Override
-    public boolean checkPassHash(String pass, String ourHash) {
-        return BCrypt.checkpw(pass,ourHash);
+    private PasswordHashingImpl() {
     }
 
 
-//создаем пароли
+    //проверяем пароли
+    @Override
+    public boolean checkPassHash(String pass, String ourHash) {
+        return BCrypt.checkpw(pass, ourHash);
+    }
+
+
+    //создаем пароли
     @Override
     public String createHashFromPass(String pass) {
-       return BCrypt.hashpw(pass,strong_salt);
+        return BCrypt.hashpw(pass, strong_salt);
     }
 }

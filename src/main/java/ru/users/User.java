@@ -6,9 +6,10 @@ public class User implements Comparable<User> {
         this.password = password;
 
     }
+
     @Override
     public int compareTo(User o) {
-       return name.compareTo(o.name);
+        return name.compareTo(o.name);
     }
 
     private String name;
@@ -26,7 +27,7 @@ public class User implements Comparable<User> {
 
     @Override
     public boolean equals(Object obj) {
-        User user =(User) obj;
+        User user = (User) obj;
         return (name.equals(user.name));
     }
 
