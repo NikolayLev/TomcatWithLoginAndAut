@@ -24,25 +24,27 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String password = req.getParameter("password");
-        User user = new User(name,password);
+        User user = new User(name, password);
 
         WorkWithUserBase userBase = WorkWithUserBaseImpl.storage;
-        if(userBase.checkUserNameAndPassword(user)){
-            System.out.println("Пользователь "+ name+ "   удачно залогинился");
+        if (userBase.checkUserNameAndPassword(user)) {
+            System.out.println("Пользователь " + name + "   удачно залогинился");
             HttpSession session = req.getSession();
             session.setAttribute("user", name);
-            req.getServletContext().getRequestDispatcher("/home").forward(req,resp);
-        }else {
+            session.setMaxInactiveInterval(-1);
+            resp.sendRedirect(req.getContextPath() + "/home");
+        } else {
             System.out.println("ошибка авторизации");
-            resp.sendRedirect(req.getContextPath()+"/login");
+            resp.sendRedirect(req.getContextPath() + "/login");
         }
 
     }
+
     @Override
     public void init() throws ServletException {
         try {
             Class.forName("org.postgresql.Driver");
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
