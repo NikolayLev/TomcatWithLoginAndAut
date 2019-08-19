@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta charset="utf-8">
     <title>Login Page</title>
     <link href="/css/loginStyles.css" rel="stylesheet" type="text/css">
 </head>
