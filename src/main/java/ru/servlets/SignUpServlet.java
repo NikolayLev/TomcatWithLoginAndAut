@@ -32,12 +32,14 @@ public class SignUpServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         req.getServletContext().getRequestDispatcher("/jsp/signUp.jsp").forward(req, resp);
 
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         String name = req.getParameter("name");
         String password = PasswordHashingImpl.getPasswordHashing.createHashFromPass(req.getParameter("password"));
         //важно! если имя пользователя есть в базе вернет true

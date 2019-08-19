@@ -17,11 +17,13 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         request.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(request, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         String name = req.getParameter("name");
         String password = req.getParameter("password");
         User user = new User(name, password);
