@@ -45,7 +45,6 @@ public class HomeServlet extends HttpServlet {
 
         HttpSession session = req.getSession(false);
         String userName = (String) session.getAttribute("user");
-        System.out.println(req.getCharacterEncoding());
         req.setAttribute("userName", userName);
 
         String id1 = req.getParameter("id1");
@@ -53,7 +52,7 @@ public class HomeServlet extends HttpServlet {
         String id3 = req.getParameter("id3");
         String id4 = req.getParameter("id4");
         String id5 = req.getParameter("id5");
-        System.out.println(id1+id2+id3+id4+id5);
+
         String[] ids = {id1, id2, id3, id4, id5};
         String price1 = req.getParameter("price1");
         String price2 = req.getParameter("price2");
