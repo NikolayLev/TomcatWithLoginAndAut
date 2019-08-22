@@ -12,7 +12,9 @@ public class WorkWithUserBaseImpl implements WorkWithUserBase {
     @Override
     public boolean checkUser(String userName) {
         try {
-            ResultSet resultSet = statement.executeQuery("SELECT name FROM project_user WHERE name ='" + userName + "'");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT name FROM project_user WHERE name = ?");
+            preparedStatement.setString(1,userName);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 System.out.println(resultSet.getString("name"));
                 return true;
@@ -26,7 +28,7 @@ public class WorkWithUserBaseImpl implements WorkWithUserBase {
     private String dbPassword;
     private String connectionUrl;
     private Connection connection;
-    private Statement statement;
+
 
     public static WorkWithUserBaseImpl storage;
 
@@ -46,7 +48,10 @@ public class WorkWithUserBaseImpl implements WorkWithUserBase {
 
         if (!checkUser(user1.getName())) {
             try {
-                statement.execute("INSERT INTO project_user(name, password) VALUES ('" + name1 + "','" + password1 + "')");
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO project_user(name, password) VALUES(?,?)");
+                preparedStatement.setString(1,name1);
+                preparedStatement.setString(2,password1);
+                preparedStatement.execute();
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -66,7 +71,9 @@ public class WorkWithUserBaseImpl implements WorkWithUserBase {
         String hashPassword;
         ResultSet resultSet;
         try {
-            resultSet = statement.executeQuery("SELECT name, password FROM project_user WHERE name ='" + name + "'");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT name, password FROM project_user WHERE name = ?");
+            preparedStatement.setString(1, name);
+            resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 resultSet.getString("name");
@@ -94,7 +101,6 @@ public class WorkWithUserBaseImpl implements WorkWithUserBase {
         connectionUrl = "jdbc:postgresql://localhost:5432/UsersForProject";
         try {
             connection = DriverManager.getConnection(connectionUrl, dbUser, dbPassword);
-            statement = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
         }

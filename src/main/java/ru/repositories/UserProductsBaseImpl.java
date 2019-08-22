@@ -1,5 +1,6 @@
 package ru.repositories;
 
+import org.springframework.security.access.method.P;
 import ru.users.UserProduct;
 
 import java.sql.*;
@@ -13,7 +14,7 @@ public class UserProductsBaseImpl implements UserProductsBase {
     private String dbPassword;
     private String connectionUrl;
     private Connection connection;
-    private Statement statement;
+
 
     private List<UserProduct> listfromServer = new ArrayList<>();
 
@@ -33,7 +34,7 @@ public class UserProductsBaseImpl implements UserProductsBase {
         connectionUrl = "jdbc:postgresql://localhost:5432/UsersForProject";
         try {
             connection = DriverManager.getConnection(connectionUrl, dbUser, dbPassword);
-            statement = connection.createStatement();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,7 +49,11 @@ public class UserProductsBaseImpl implements UserProductsBase {
             String product = userProduct.getProductName();
             int price = userProduct.getPrice();
             try {
-                statement.execute("INSERT INTO userproducts(name, product, price) VALUES ('" + userName + "','" + product + "'," + price + ")");
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO userproducts(name, product, price) VALUES (?,?,?)");
+                preparedStatement.setString(1,userName);
+                preparedStatement.setString(2,product);
+                preparedStatement.setInt(3,price);
+                preparedStatement.execute();
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -63,7 +68,9 @@ public class UserProductsBaseImpl implements UserProductsBase {
         List<UserProduct> innerList = new ArrayList<>();
         ResultSet resultSet;
         try {
-            resultSet = statement.executeQuery("SELECT product, price FROM userproducts WHERE name ='" + userName + "'");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT product, price FROM userproducts WHERE name = ?");
+            preparedStatement.setString(1,userName);
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String product = resultSet.getString("product");
                 int price = resultSet.getInt("price");
